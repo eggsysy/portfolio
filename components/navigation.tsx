@@ -30,12 +30,12 @@ export default function Navigation() {
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-slate-900/95 backdrop-blur-md shadow-lg" : "bg-transparent"
+        scrolled ? "bg-white/95 backdrop-blur-md shadow-lg shadow-deep-violet/10" : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="text-xl font-bold text-blue-400 hover:text-purple-400 transition-colors">
+          <Link href="/" className="text-xl font-bold text-bright-aqua hover:text-deep-violet transition-colors">
             Portfolio
           </Link>
 
@@ -45,8 +45,8 @@ export default function Navigation() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:text-blue-400 hover:bg-slate-800/50 ${
-                  pathname === item.href ? "text-blue-400 bg-slate-800/30" : "text-slate-300"
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:text-bright-aqua hover:bg-soft-lavender/50 ${
+                  pathname === item.href ? "text-bright-aqua bg-soft-lavender/30" : "text-gray-700"
                 }`}
               >
                 {item.name}
@@ -57,7 +57,7 @@ export default function Navigation() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg text-slate-300 hover:text-blue-400 hover:bg-slate-800/50 transition-colors"
+            className="md:hidden p-2 rounded-lg text-gray-700 hover:text-bright-aqua hover:bg-soft-lavender/50 transition-colors"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -65,14 +65,14 @@ export default function Navigation() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden bg-slate-800/95 backdrop-blur-md rounded-lg mt-2 p-4">
+          <div className="md:hidden bg-white/95 backdrop-blur-md rounded-lg mt-2 p-4 border border-soft-lavender">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:text-blue-400 hover:bg-slate-700/50 ${
-                  pathname === item.href ? "text-blue-400 bg-slate-700/30" : "text-slate-300"
+                className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:text-bright-aqua hover:bg-soft-lavender/50 ${
+                  pathname === item.href ? "text-bright-aqua bg-soft-lavender/30" : "text-gray-700"
                 }`}
               >
                 {item.name}

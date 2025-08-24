@@ -7,9 +7,9 @@ import Navigation from "@/components/navigation"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Portfolio - Blue Eclipse",
-  description: "Professional portfolio with Blue Eclipse theme",
-    generator: 'v0.dev'
+  title: "Aryan Badmera - Portfolio",
+  description: "Software Developer Portfolio with Modern Aqua-Violet Theme",
+    generator: 'v0.app'
 }
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} bg-slate-900 text-slate-100 antialiased`}>
+      <body className={`${inter.className} bg-soft-lavender text-gray-900 antialiased`}>
         <Navigation />
         <main className="min-h-screen">{children}</main>
       </body>
