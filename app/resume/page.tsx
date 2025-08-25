@@ -1,5 +1,4 @@
 "use client"
-
 import { motion } from "framer-motion"
 import { Download, MapPin, Mail, Phone, Calendar, Award, Briefcase, GraduationCap, Github } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -66,6 +65,45 @@ const skills = {
 }
 
 export default function ResumePage() {
+  const handleDownload = async () => {
+    try {
+      const response = await fetch("/api/resume/download")
+      const data = await response.json()
+
+      if (data.success) {
+        // Create a temporary link and trigger download
+        const link = document.createElement("a")
+        link.href = data.downloadUrl
+        link.download = data.fileName
+        link.target = "_blank"
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      } else {
+        // Fallback to default resume
+        const fallbackResponse = await fetch("/api/resume/default")
+        if (fallbackResponse.ok) {
+          const blob = await fallbackResponse.blob()
+          const url = window.URL.createObjectURL(blob)
+          const link = document.createElement("a")
+          link.href = url
+          link.download = "Aryan_Badmera_Resume.txt"
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+          window.URL.revokeObjectURL(url)
+
+          alert("Downloaded default resume. Contact admin to upload a PDF resume for better formatting!")
+        } else {
+          alert("No resume available. Please contact admin to upload a resume.")
+        }
+      }
+    } catch (error) {
+      console.error("Download error:", error)
+      alert("Failed to download resume. Please try again.")
+    }
+  }
+
   return (
     <div className="min-h-screen bg-soft-lavender pt-20 pb-16 relative overflow-hidden">
       {/* Floating Paper Shapes */}
@@ -122,7 +160,7 @@ export default function ResumePage() {
             </div>
           </motion.div>
 
-          {/* Sticky Note Style Download Button */}
+          {/* Download Button */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -131,6 +169,7 @@ export default function ResumePage() {
             className="relative inline-block"
           >
             <Button
+              onClick={handleDownload}
               className="bg-bright-aqua hover:bg-bright-aqua/90 text-black px-8 py-4 text-lg font-bold shadow-lg transform -rotate-1 rounded-xl relative z-10 border-0"
               style={{ clipPath: "polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)" }}
             >
