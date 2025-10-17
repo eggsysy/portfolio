@@ -24,11 +24,6 @@
     --input: 234 234 245;
     --ring: 180 100% 47%;
     --radius: 0.75rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
   }
 }
 
@@ -37,8 +32,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-soft-lavender text-gray-900 antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-slate-50 text-gray-900;
   }
 }
 
@@ -65,7 +59,7 @@
   scroll-behavior: smooth;
 }
 
-/* Utility classes */
+/* Line clamp utility */
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -104,7 +98,7 @@
   --tw-ring-color: rgb(0 242 195);
 }
 
-/* Ensure proper rendering */
+/* Custom color classes */
 .bg-bright-aqua {
   background-color: #00f2c3;
 }
@@ -139,16 +133,4 @@
 
 .border-soft-lavender {
   border-color: #eaeaf5;
-}
-
-/* Fix for potential rendering issues */
-.transform {
-  transform: translateZ(0);
-}
-
-/* Ensure proper font loading */
-@supports (font-variation-settings: normal) {
-  body {
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
 }

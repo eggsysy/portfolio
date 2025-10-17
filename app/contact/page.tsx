@@ -1,9 +1,9 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+
 import { motion } from "framer-motion"
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, CheckCircle, AlertCircle } from "lucide-react"
+import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -51,95 +51,11 @@ const socialLinks = [
   },
 ]
 
-interface FormData {
-  firstName: string
-  lastName: string
-  email: string
-  subject: string
-  message: string
-}
-
-interface FormStatus {
-  type: "idle" | "loading" | "success" | "error"
-  message: string
-}
-
 export default function ContactPage() {
-  const [formData, setFormData] = useState<FormData>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    subject: "",
-    message: "",
-  })
-
-  const [status, setStatus] = useState<FormStatus>({
-    type: "idle",
-    message: "",
-  })
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
-    // Reset status
-    setStatus({ type: "loading", message: "Sending message..." })
-
-    try {
-      // 🚀 FORMSPREE INTEGRATION
-      // Replace 'YOUR_FORM_ID' with your actual Formspree form ID
-      const FORMSPREE_ENDPOINT = "https://formspree.io/f/mkgvwabo"
-
-      const response = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-          // Additional fields for better organization
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          _replyto: formData.email, // Formspree will use this for reply-to
-          _subject: `Portfolio Contact: ${formData.subject}`, // Custom subject line
-        }),
-      })
-
-      if (response.ok) {
-        setStatus({
-          type: "success",
-          message: "🎉 Message sent successfully! I'll get back to you within 24-48 hours.",
-        })
-
-        // Reset form
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          subject: "",
-          message: "",
-        })
-      } else {
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to send message")
-      }
-    } catch (error) {
-      console.error("Form submission error:", error)
-      setStatus({
-        type: "error",
-        message: "❌ Failed to send message. Please try again or contact me directly at aryanbadmera@gmail.com",
-      })
-    }
+    // Handle form submission
+    console.log("Form submitted")
   }
 
   return (
@@ -232,138 +148,81 @@ export default function ContactPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {/* Status Message */}
-                {status.type !== "idle" && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`mb-6 p-4 rounded-lg flex items-center ${
-                      status.type === "success"
-                        ? "bg-green-50 text-green-800 border border-green-200"
-                        : status.type === "error"
-                          ? "bg-red-50 text-red-800 border border-red-200"
-                          : "bg-blue-50 text-blue-800 border border-blue-200"
-                    }`}
-                  >
-                    {status.type === "success" && <CheckCircle className="mr-2" size={20} />}
-                    {status.type === "error" && <AlertCircle className="mr-2" size={20} />}
-                    {status.type === "loading" && (
-                      <div className="mr-2 w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-                    )}
-                    <span className="text-sm">{status.message}</span>
-                  </motion.div>
-                )}
-
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
-                        First Name *
+                        First Name
                       </label>
                       <Input
                         id="firstName"
-                        name="firstName"
                         type="text"
                         required
-                        value={formData.firstName}
-                        onChange={handleInputChange}
                         className="bg-soft-lavender/30 border-soft-lavender text-gray-900 focus:border-bright-aqua focus:ring-bright-aqua rounded-lg shadow-sm"
                         placeholder="John"
-                        disabled={status.type === "loading"}
                       />
                     </div>
                     <div>
                       <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
-                        Last Name *
+                        Last Name
                       </label>
                       <Input
                         id="lastName"
-                        name="lastName"
                         type="text"
                         required
-                        value={formData.lastName}
-                        onChange={handleInputChange}
                         className="bg-soft-lavender/30 border-soft-lavender text-gray-900 focus:border-bright-aqua focus:ring-bright-aqua rounded-lg shadow-sm"
                         placeholder="Doe"
-                        disabled={status.type === "loading"}
                       />
                     </div>
                   </div>
 
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address *
+                      Email Address
                     </label>
                     <Input
                       id="email"
-                      name="email"
                       type="email"
                       required
-                      value={formData.email}
-                      onChange={handleInputChange}
                       className="bg-soft-lavender/30 border-soft-lavender text-gray-900 focus:border-bright-aqua focus:ring-bright-aqua rounded-lg shadow-sm"
                       placeholder="john@example.com"
-                      disabled={status.type === "loading"}
                     />
                   </div>
 
                   <div>
                     <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                      Subject *
+                      Subject
                     </label>
                     <Input
                       id="subject"
-                      name="subject"
                       type="text"
                       required
-                      value={formData.subject}
-                      onChange={handleInputChange}
                       className="bg-soft-lavender/30 border-soft-lavender text-gray-900 focus:border-bright-aqua focus:ring-bright-aqua rounded-lg shadow-sm"
                       placeholder="Project Collaboration"
-                      disabled={status.type === "loading"}
                     />
                   </div>
 
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                      Message *
+                      Message
                     </label>
                     <Textarea
                       id="message"
-                      name="message"
                       required
                       rows={6}
-                      value={formData.message}
-                      onChange={handleInputChange}
                       className="bg-soft-lavender/30 border-soft-lavender text-gray-900 focus:border-bright-aqua focus:ring-bright-aqua resize-none rounded-lg shadow-sm"
                       placeholder="Tell me about your project or collaboration idea..."
-                      disabled={status.type === "loading"}
                     />
                   </div>
 
-                  <motion.div
-                    whileHover={{
-                      scale: status.type === "loading" ? 1 : 1.05,
-                      rotate: status.type === "loading" ? 0 : 2,
-                    }}
-                  >
+                  <motion.div whileHover={{ scale: 1.05, rotate: 2 }}>
                     <Button
                       type="submit"
-                      disabled={status.type === "loading"}
-                      className="w-full bg-bright-aqua hover:bg-bright-aqua/90 text-black py-4 rounded-xl font-semibold transition-all duration-300 transform shadow-lg relative disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full bg-bright-aqua hover:bg-bright-aqua/90 text-black py-4 rounded-xl font-semibold transition-all duration-300 transform shadow-lg relative"
                       style={{ clipPath: "polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)" }}
                     >
-                      {status.type === "loading" ? (
-                        <>
-                          <div className="mr-2 w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                          Sending...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="mr-2" size={20} />
-                          Send Message
-                        </>
-                      )}
+                      <Send className="mr-2" size={20} />
+                      Send Message
                       <div
                         className="absolute -bottom-1 -right-1 w-full h-full bg-bright-aqua/40 -z-10 transform rotate-1 rounded-xl"
                         style={{ clipPath: "polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)" }}
@@ -371,14 +230,6 @@ export default function ContactPage() {
                     </Button>
                   </motion.div>
                 </form>
-
-                {/* Formspree Info */}
-                <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-                  <p className="text-sm text-green-800">
-                    Your messages are delivered directly to my email inbox.
-                    I'll respond within 24-48 hours!
-                  </p>
-                </div>
               </CardContent>
 
               {/* Card Shadow */}
