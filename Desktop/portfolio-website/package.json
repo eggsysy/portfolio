@@ -25,6 +25,9 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": ["sharp", "unrs-resolver"]
+  },
   "devDependencies": {
     "@types/node": "^22",
     "@types/react": "^19",
