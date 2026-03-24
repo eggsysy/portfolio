@@ -1,0 +1,162 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  :root {
+    --background: 234 234 245;
+    --foreground: 17 17 17;
+    --card: 255 255 255;
+    --card-foreground: 17 17 17;
+    --popover: 255 255 255;
+    --popover-foreground: 17 17 17;
+    --primary: 180 100% 47%;
+    --primary-foreground: 255 255 255;
+    --secondary: 234 234 245;
+    --secondary-foreground: 17 17 17;
+    --muted: 234 234 245;
+    --muted-foreground: 34 34 34;
+    --accent: 90 93 255;
+    --accent-foreground: 255 255 255;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 255 255 255;
+    --border: 234 234 245;
+    --input: 234 234 245;
+    --ring: 180 100% 47%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 13 13 24;
+    --foreground: 240 240 255;
+    --card: 26 26 46;
+    --card-foreground: 240 240 255;
+    --popover: 26 26 46;
+    --popover-foreground: 240 240 255;
+    --secondary: 30 30 53;
+    --secondary-foreground: 200 200 230;
+    --muted: 30 30 53;
+    --muted-foreground: 160 160 200;
+    --border: 40 40 70;
+    --input: 40 40 70;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  body {
+    @apply bg-slate-50 text-gray-900;
+  }
+  .dark body {
+    @apply bg-[#0d0d18] text-gray-100;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #eaeaf5;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00f2c3;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00d4a8;
+}
+
+/* Smooth animations */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Line clamp utility */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Gradient text animation */
+@keyframes gradient-x {
+  0%,
+  100% {
+    background-size: 200% 200%;
+    background-position: left center;
+  }
+  50% {
+    background-size: 200% 200%;
+    background-position: right center;
+  }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 3s ease infinite;
+}
+
+/* Glow effects */
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(0, 242, 195, 0.3);
+}
+
+.glow-violet {
+  box-shadow: 0 0 20px rgba(90, 93, 255, 0.3);
+}
+
+/* Custom focus styles */
+.focus-visible\:ring-cyan-400:focus-visible {
+  --tw-ring-color: rgb(0 242 195);
+}
+
+/* Custom color classes */
+.bg-bright-aqua {
+  background-color: #00f2c3;
+}
+
+.text-bright-aqua {
+  color: #00f2c3;
+}
+
+.bg-deep-violet {
+  background-color: #5a5dff;
+}
+
+.text-deep-violet {
+  color: #5a5dff;
+}
+
+.bg-soft-lavender {
+  background-color: #eaeaf5;
+}
+
+.text-soft-lavender {
+  color: #eaeaf5;
+}
+
+.border-bright-aqua {
+  border-color: #00f2c3;
+}
+
+.border-deep-violet {
+  border-color: #5a5dff;
+}
+
+.border-soft-lavender {
+  border-color: #eaeaf5;
+}

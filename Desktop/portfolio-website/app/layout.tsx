@@ -1,0 +1,31 @@
+import type React from "react"
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import "./globals.css"
+import Navigation from "@/components/navigation"
+import { ThemeProvider } from "@/components/theme-provider"
+
+const inter = Inter({ subsets: ["latin"] })
+
+export const metadata: Metadata = {
+  title: "Aryan Badmera - Portfolio",
+  description: "Software Developer Portfolio with Modern Aqua-Violet Theme",
+    generator: 'v0.app'
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <body className={`${inter.className} bg-soft-lavender text-gray-900 antialiased`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
+          <Navigation />
+          <main className="min-h-screen">{children}</main>
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
