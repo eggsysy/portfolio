@@ -19,7 +19,12 @@ module.exports = {
         "soft-lavender": "#eaeaf5",
       },
       fontFamily: {
+        sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "ui-sans-serif", "system-ui", "sans-serif"],
         kalam: ["var(--font-kalam)", "cursive", "Comic Sans MS", "sans-serif"],
+      },
+      letterSpacing: {
+        "tight-display": "-0.02em",
       },
       boxShadow: {
         "glow-cyan": "0 0 20px rgba(0, 242, 195, 0.3)",

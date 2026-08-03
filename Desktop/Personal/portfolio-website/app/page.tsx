@@ -15,6 +15,7 @@ export default function HomePage() {
       <BackgroundShapes>
         {/* Large Background Waves */}
         <FloatingShape
+          parallax={220}
           initial={{ x: -100, rotate: -5 }}
           animate={{ x: 0, rotate: 0 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
@@ -25,6 +26,7 @@ export default function HomePage() {
         />
 
         <FloatingShape
+          parallax={-160}
           initial={{ x: 100, rotate: 5 }}
           animate={{ x: 0, rotate: 0 }}
           transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}

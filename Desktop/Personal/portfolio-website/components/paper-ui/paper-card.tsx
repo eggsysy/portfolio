@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { motion, HTMLMotionProps } from "framer-motion"
+import { motion, HTMLMotionProps, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { PaperTexture, TORN_VARIANTS } from "@/components/paper-ui/paper-defs"
 
@@ -20,6 +20,8 @@ interface PaperCardProps extends HTMLMotionProps<"div"> {
   texture?: boolean
   /** Which torn-edge seed variant to use (0..2); adds variety between cards. */
   tornVariant?: number
+  /** Lean the card toward the cursor in 3D (disabled on touch by nature). */
+  tilt?: boolean
 }
 
 export const PaperCard = React.forwardRef<HTMLDivElement, PaperCardProps>(
@@ -37,6 +39,10 @@ export const PaperCard = React.forwardRef<HTMLDivElement, PaperCardProps>(
       torn = true,
       texture = true,
       tornVariant = 0,
+      tilt = true,
+      onMouseMove,
+      onMouseLeave,
+      style,
       ...props
     },
     ref
@@ -47,9 +53,29 @@ export const PaperCard = React.forwardRef<HTMLDivElement, PaperCardProps>(
       gray: "bg-gray-400/20 dark:bg-gray-600/10",
     }[shadowColor]
 
+    // Cursor-driven 3D tilt (spring-smoothed).
+    const px = useMotionValue(0)
+    const py = useMotionValue(0)
+    const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [7, -7]), { stiffness: 150, damping: 15 })
+    const rotateY = useSpring(useTransform(px, [-0.5, 0.5], [-7, 7]), { stiffness: 150, damping: 15 })
+
+    const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+      if (tilt) {
+        const r = e.currentTarget.getBoundingClientRect()
+        px.set((e.clientX - r.left) / r.width - 0.5)
+        py.set((e.clientY - r.top) / r.height - 0.5)
+      }
+      onMouseMove?.(e)
+    }
+    const handleLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+      px.set(0)
+      py.set(0)
+      onMouseLeave?.(e)
+    }
+
     const hoverProps = hasHoverEffect
       ? {
-          whileHover: { scale: 1.05, rotate: -1 },
+          whileHover: { scale: 1.05 },
           transition: { duration: 0.3 },
         }
       : {}
@@ -61,7 +87,13 @@ export const PaperCard = React.forwardRef<HTMLDivElement, PaperCardProps>(
     return (
       <motion.div
         ref={ref}
-        className={cn("relative group", containerClassName)}
+        className={cn("relative group [transform-style:preserve-3d]", containerClassName)}
+        onMouseMove={handleMove}
+        onMouseLeave={handleLeave}
+        style={{
+          ...(tilt ? { rotateX, rotateY, transformPerspective: 900 } : {}),
+          ...style,
+        }}
         {...hoverProps}
         {...props}
       >
@@ -75,7 +107,7 @@ export const PaperCard = React.forwardRef<HTMLDivElement, PaperCardProps>(
         </div>
 
         {/* Content sits above the filtered paper so text never distorts */}
-        <div className={cn("relative z-10 p-8", innerClassName)}>{children}</div>
+        <div className={cn("relative z-10 p-8 [transform:translateZ(20px)]", innerClassName)}>{children}</div>
 
         {/* Offset colored shadow layer */}
         <div

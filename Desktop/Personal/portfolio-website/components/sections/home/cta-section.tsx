@@ -5,6 +5,7 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { SketchDoodle } from "@/components/paper-ui/sketch-doodle"
+import { MagneticButton } from "@/components/paper-ui/magnetic-button"
 
 export const CTASection = () => {
   return (
@@ -39,7 +40,7 @@ export const CTASection = () => {
 
             {/* Sticky Note Style Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <div className="relative">
+              <MagneticButton className="relative">
                 <Link href="/projects">
                   <motion.div
                     whileHover={{ scale: 1.05, rotate: 2 }}
@@ -62,8 +63,9 @@ export const CTASection = () => {
                     />
                   </motion.div>
                 </Link>
-              </div>
+              </MagneticButton>
 
+              <MagneticButton>
               <Link href="/contact">
                 <motion.div
                   whileHover={{ scale: 1.05, rotate: -2 }}
@@ -84,6 +86,7 @@ export const CTASection = () => {
                   />
                 </motion.div>
               </Link>
+              </MagneticButton>
             </div>
 
             {/* Background Shadow */}

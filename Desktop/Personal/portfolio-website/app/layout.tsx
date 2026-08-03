@@ -1,17 +1,24 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Kalam } from "next/font/google"
+import { Inter, Kalam, Patrick_Hand } from "next/font/google"
 import "./globals.css"
 import Navigation from "@/components/navigation"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PaperDefs } from "@/components/paper-ui/paper-defs"
 import { CommandPalette } from "@/components/paper-ui/command-palette"
+import { PencilCursor } from "@/components/paper-ui/pencil-cursor"
 
-const inter = Inter({ subsets: ["latin"] })
-const kalam = Kalam({ 
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+const kalam = Kalam({
   weight: ["300", "400", "700"],
   subsets: ["latin"],
   variable: "--font-kalam",
+})
+// Neat everyday print handwriting for headlines.
+const displayFont = Patrick_Hand({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-display",
 })
 
 export const metadata: Metadata = {
@@ -61,9 +68,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${inter.className} ${kalam.variable} bg-soft-lavender text-gray-900 antialiased`}>
+      <body className={`${inter.className} ${inter.variable} ${kalam.variable} ${displayFont.variable} bg-soft-lavender text-gray-900 antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
           <PaperDefs />
+          <PencilCursor />
           <Navigation />
           <CommandPalette />
           <main className="min-h-screen">{children}</main>

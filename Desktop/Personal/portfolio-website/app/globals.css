@@ -55,9 +55,42 @@
   .dark body {
     @apply bg-[#0d0d18] text-gray-100;
   }
+  /* Hand-lettered script for all top-level headlines (card titles are h3). */
+  h1,
+  h2 {
+    font-family: var(--font-display), "Comic Sans MS", cursive;
+    letter-spacing: 0;
+  }
   .dark .shadow-xl, .dark .shadow-2xl, .dark .shadow-lg {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
   }
+}
+
+/* Paper-slide page transition (CSS-driven so it never hides content on JS failure) */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.99) rotate(-0.6deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.page-enter {
+  transform-origin: 50% 0%;
+  animation: page-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-enter {
+    animation: none;
+  }
+}
+
+/* Hide the native cursor while the custom pencil cursor is active */
+html.pencil-cursor-active,
+html.pencil-cursor-active * {
+  cursor: none !important;
 }
 
 /* Custom scrollbar */
@@ -91,3 +124,7 @@
 .focus-visible\:ring-cyan-400:focus-visible {
   --tw-ring-color: rgb(0 242 195);
 }
+
+
+
+
