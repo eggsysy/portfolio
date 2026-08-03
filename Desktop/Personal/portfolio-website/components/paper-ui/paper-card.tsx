@@ -3,6 +3,7 @@
 import React from "react"
 import { motion, HTMLMotionProps } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { PaperTexture, TORN_VARIANTS } from "@/components/paper-ui/paper-defs"
 
 interface PaperCardProps extends HTMLMotionProps<"div"> {
   children: React.ReactNode
@@ -13,6 +14,12 @@ interface PaperCardProps extends HTMLMotionProps<"div"> {
   clipPath?: string
   shadowClipPath?: string
   hasHoverEffect?: boolean
+  /** Roughen the paper edge with a hand-torn displacement filter. */
+  torn?: boolean
+  /** Overlay a subtle paper-fiber grain. */
+  texture?: boolean
+  /** Which torn-edge seed variant to use (0..2); adds variety between cards. */
+  tornVariant?: number
 }
 
 export const PaperCard = React.forwardRef<HTMLDivElement, PaperCardProps>(
@@ -27,6 +34,9 @@ export const PaperCard = React.forwardRef<HTMLDivElement, PaperCardProps>(
       clipPath = "polygon(2% 0%, 98% 3%, 97% 97%, 3% 100%)",
       shadowClipPath,
       hasHoverEffect = true,
+      torn = true,
+      texture = true,
+      tornVariant = 0,
       ...props
     },
     ref
@@ -44,6 +54,10 @@ export const PaperCard = React.forwardRef<HTMLDivElement, PaperCardProps>(
         }
       : {}
 
+    const tornFilter = torn
+      ? `url(#paper-torn-${((tornVariant % TORN_VARIANTS) + TORN_VARIANTS) % TORN_VARIANTS})`
+      : undefined
+
     return (
       <motion.div
         ref={ref}
@@ -51,20 +65,19 @@ export const PaperCard = React.forwardRef<HTMLDivElement, PaperCardProps>(
         {...hoverProps}
         {...props}
       >
+        {/* Paper surface (torn edge + grain live here so content stays crisp) */}
         <div
-          className={cn(
-            "bg-white dark:bg-gray-900 p-8 shadow-xl relative overflow-hidden transition-all duration-300",
-            innerClassName
-          )}
-          style={{
-            clipPath,
-            borderRadius: "20px",
-          }}
+          aria-hidden="true"
+          className="absolute inset-0 bg-white dark:bg-gray-900 shadow-xl overflow-hidden"
+          style={{ clipPath, borderRadius: "20px", filter: tornFilter }}
         >
-          {children}
+          {texture && <PaperTexture />}
         </div>
 
-        {/* Shadow Layer */}
+        {/* Content sits above the filtered paper so text never distorts */}
+        <div className={cn("relative z-10 p-8", innerClassName)}>{children}</div>
+
+        {/* Offset colored shadow layer */}
         <div
           className={cn(
             "absolute -bottom-2 -right-2 w-full h-full -z-10 transform rotate-1 transition-all duration-300",
@@ -74,6 +87,7 @@ export const PaperCard = React.forwardRef<HTMLDivElement, PaperCardProps>(
           style={{
             clipPath: shadowClipPath || clipPath,
             borderRadius: "20px",
+            filter: tornFilter,
           }}
         />
       </motion.div>

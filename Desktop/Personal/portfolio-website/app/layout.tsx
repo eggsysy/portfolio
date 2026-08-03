@@ -4,6 +4,8 @@ import { Inter, Kalam } from "next/font/google"
 import "./globals.css"
 import Navigation from "@/components/navigation"
 import { ThemeProvider } from "@/components/theme-provider"
+import { PaperDefs } from "@/components/paper-ui/paper-defs"
+import { CommandPalette } from "@/components/paper-ui/command-palette"
 
 const inter = Inter({ subsets: ["latin"] })
 const kalam = Kalam({ 
@@ -17,8 +19,8 @@ export const metadata: Metadata = {
     default: "Aryan Badmera | Software Developer",
     template: "%s | Aryan Badmera",
   },
-  description: "Portfolio of Aryan Badmera, a Software Developer & Cognitive Psychologist specializing in Blockchain, AI/ML, and modern web technologies.",
-  keywords: ["Aryan Badmera", "Software Developer", "Blockchain", "AI/ML", "Cognitive Psychologist", "Portfolio", "Next.js", "React"],
+  description: "Portfolio of Aryan Badmera, a Software Developer & Blockchain Developer specializing in Blockchain, AI/ML, and modern web technologies.",
+  keywords: ["Aryan Badmera", "Software Developer", "Blockchain", "AI/ML", "Web3", "Portfolio", "Next.js", "React"],
   authors: [{ name: "Aryan Badmera" }],
   creator: "Aryan Badmera",
   openGraph: {
@@ -61,7 +63,9 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${inter.className} ${kalam.variable} bg-soft-lavender text-gray-900 antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
+          <PaperDefs />
           <Navigation />
+          <CommandPalette />
           <main className="min-h-screen">{children}</main>
         </ThemeProvider>
       </body>

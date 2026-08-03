@@ -54,7 +54,7 @@ export const HeroSection = () => {
                 ARYAN
                 <div
                   className="absolute -inset-4 bg-white dark:bg-gray-800 shadow-xl transform -rotate-1 -z-10 rounded-lg"
-                  style={{ clipPath: "polygon(5% 0%, 95% 2%, 98% 95%, 2% 98%)" }}
+                  style={{ clipPath: "polygon(5% 0%, 95% 2%, 98% 95%, 2% 98%)", filter: "url(#paper-torn-0)" }}
                 />
               </span>
               <br />
@@ -62,7 +62,7 @@ export const HeroSection = () => {
                 <span className="text-bright-aqua">BADMERA</span>
                 <div
                   className="absolute -inset-4 bg-bright-aqua/20 shadow-lg transform rotate-1 -z-10 rounded-lg"
-                  style={{ clipPath: "polygon(2% 5%, 98% 0%, 95% 98%, 0% 95%)" }}
+                  style={{ clipPath: "polygon(2% 5%, 98% 0%, 95% 98%, 0% 95%)", filter: "url(#paper-torn-2)" }}
                 />
               </span>
             </h1>
@@ -81,7 +81,7 @@ export const HeroSection = () => {
             style={{ clipPath: "polygon(3% 0%, 97% 2%, 100% 97%, 0% 100%)" }}
           >
             <p className="text-2xl md:text-3xl text-gray-700 dark:text-gray-300 font-light">
-              Software Developer & <span className="text-deep-violet font-semibold">Cognitive Psychologist</span>
+              Software Developer & <span className="text-deep-violet font-semibold">Blockchain Developer</span>
             </p>
             <div className="absolute -bottom-1 -right-1 w-full h-full bg-deep-violet/10 -z-10 rounded-lg transform rotate-1" />
           </div>

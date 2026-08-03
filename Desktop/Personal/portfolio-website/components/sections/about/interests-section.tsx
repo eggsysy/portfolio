@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Coffee, Code, Zap, Music, Heart } from "lucide-react"
+import { Coffee, Code, Zap, Music } from "lucide-react"
 import { PaperCard } from "@/components/paper-ui/paper-card"
 import { SectionHeader } from "@/components/paper-ui/section-header"
 
@@ -10,7 +10,6 @@ const interests = [
   { name: "Coding", icon: Code, color: "deep-violet" as const },
   { name: "Football", icon: Zap, color: "bright-aqua" as const },
   { name: "Music", icon: Music, color: "deep-violet" as const },
-  { name: "Psychology", icon: Heart, color: "bright-aqua" as const },
 ]
 
 export const InterestsSection = () => {

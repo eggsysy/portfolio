@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { SketchDoodle } from "@/components/paper-ui/sketch-doodle"
 
 export const CTASection = () => {
   return (
@@ -28,6 +29,13 @@ export const CTASection = () => {
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
               Let's collaborate on innovative projects that push the boundaries of technology and creativity.
             </p>
+
+            {/* Hand-drawn arrow nudging toward the primary action */}
+            <SketchDoodle
+              variant="arrow"
+              color="deep-violet"
+              className="absolute bottom-6 left-[12%] hidden h-20 w-20 -rotate-12 md:block lg:left-[18%]"
+            />
 
             {/* Sticky Note Style Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">

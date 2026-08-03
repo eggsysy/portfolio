@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Code, Heart, Lightbulb } from "lucide-react"
 import { PaperCard } from "@/components/paper-ui/paper-card"
 import { SectionHeader } from "@/components/paper-ui/section-header"
+import { SketchDoodle } from "@/components/paper-ui/sketch-doodle"
 
 const missionItems = [
   {
@@ -32,8 +33,21 @@ const missionItems = [
 export const MissionSection = () => {
   return (
     <section className="relative z-10 py-20 px-4">
+      {/* Hand-drawn accents that sketch in on scroll */}
+      <SketchDoodle
+        variant="spark"
+        color="bright-aqua"
+        className="absolute right-[8%] top-10 hidden h-16 w-16 md:block"
+      />
       <div className="max-w-6xl mx-auto">
-        <SectionHeader title="My Mission" />
+        <div className="relative mx-auto w-fit">
+          <SectionHeader title="My Mission" />
+          <SketchDoodle
+            variant="underline"
+            color="deep-violet"
+            className="absolute -bottom-4 left-1/2 h-8 w-40 -translate-x-1/2"
+          />
+        </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {missionItems.map((item, index) => (

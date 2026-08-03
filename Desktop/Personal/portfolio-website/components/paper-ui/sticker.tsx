@@ -2,6 +2,7 @@
 
 import { motion, HTMLMotionProps } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { PaperTexture } from "@/components/paper-ui/paper-defs"
 
 interface StickerProps extends HTMLMotionProps<"div"> {
   children: React.ReactNode
@@ -41,12 +42,14 @@ export const Sticker = ({
         textColor,
         className
       )}
-      style={{ transform: `rotate(${rotation}deg)` }}
+      style={{ transform: `rotate(${rotation}deg)`, filter: "url(#paper-torn-1)" }}
       {...props}
     >
-      {children}
+      {/* Paper-fiber grain */}
+      <PaperTexture className="rounded-md" />
+      <span className="relative z-10">{children}</span>
       {/* Tape Effect */}
-      <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-4 bg-white/30 backdrop-blur-sm -rotate-2 pointer-events-none" />
+      <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-4 bg-white/30 backdrop-blur-sm -rotate-2 pointer-events-none z-20" />
     </motion.div>
   )
 }
