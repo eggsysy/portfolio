@@ -4,6 +4,7 @@ import { Inter, Kalam, Patrick_Hand } from "next/font/google"
 import "./globals.css"
 import Navigation from "@/components/navigation"
 import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeTearProvider } from "@/components/theme-tear"
 import { PaperDefs } from "@/components/paper-ui/paper-defs"
 import { CommandPalette } from "@/components/paper-ui/command-palette"
 import { PencilCursor } from "@/components/paper-ui/pencil-cursor"
@@ -72,21 +73,23 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${inter.className} ${inter.variable} ${kalam.variable} ${displayFont.variable} bg-soft-lavender text-gray-900 antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
-          <a
-            href="#main-content"
-            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:font-medium focus:text-gray-900 focus:shadow-lg dark:focus:bg-gray-900 dark:focus:text-gray-100"
-          >
-            Skip to content
-          </a>
-          <ScrollProgress />
-          <PaperDefs />
-          <PencilCursor />
-          <Navigation />
-          <CommandPalette />
-          <main id="main-content" className="min-h-screen">
-            {children}
-          </main>
-          <SiteFooter />
+          <ThemeTearProvider>
+            <a
+              href="#main-content"
+              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:font-medium focus:text-gray-900 focus:shadow-lg dark:focus:bg-gray-900 dark:focus:text-gray-100"
+            >
+              Skip to content
+            </a>
+            <ScrollProgress />
+            <PaperDefs />
+            <PencilCursor />
+            <Navigation />
+            <CommandPalette />
+            <main id="main-content" className="min-h-screen">
+              {children}
+            </main>
+            <SiteFooter />
+          </ThemeTearProvider>
         </ThemeProvider>
       </body>
     </html>

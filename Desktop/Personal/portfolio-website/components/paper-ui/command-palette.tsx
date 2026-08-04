@@ -19,6 +19,7 @@ import {
   CornerDownLeft,
 } from "lucide-react"
 import { PaperTexture } from "@/components/paper-ui/paper-defs"
+import { useThemeTear } from "@/components/theme-tear"
 
 type CommandItem = {
   id: string
@@ -42,6 +43,7 @@ export const CommandPalette = () => {
   const listRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const { theme, setTheme } = useTheme()
+  const { toggle: tearToggle } = useThemeTear()
 
   useEffect(() => setMounted(true), [])
 
@@ -77,7 +79,9 @@ export const CommandPalette = () => {
         keywords: "dark light theme toggle appearance",
         icon: theme === "dark" ? Sun : Moon,
         run: () => {
-          setTheme(theme === "dark" ? "light" : "dark")
+          close()
+          // Small delay so the palette closes before the tear starts
+          requestAnimationFrame(() => tearToggle())
         },
       },
       {
@@ -96,7 +100,7 @@ export const CommandPalette = () => {
       },
     ]
     return [...nav, ...actions]
-  }, [go, theme, setTheme, copied])
+  }, [go, theme, setTheme, copied, tearToggle, close])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()

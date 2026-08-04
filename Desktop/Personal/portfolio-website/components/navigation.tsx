@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 import { Menu, X, Sun, Moon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { motion } from "framer-motion"
+import { useThemeTear } from "@/components/theme-tear"
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -22,6 +23,7 @@ export default function Navigation() {
   const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
+  const { toggle: tearToggle } = useThemeTear()
 
   useEffect(() => {
     setMounted(true)
@@ -73,7 +75,7 @@ export default function Navigation() {
             {/* Dark mode toggle */}
             {mounted && (
               <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                onClick={tearToggle}
                 className="relative p-2 rounded-xl border border-deep-violet/30 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-soft-lavender/50 dark:hover:bg-gray-800/60 hover:text-bright-aqua transition-all duration-300 overflow-hidden group"
                 aria-label="Toggle dark mode"
               >
@@ -91,7 +93,7 @@ export default function Navigation() {
           <div className="md:hidden flex items-center gap-2">
             {mounted && (
               <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                onClick={tearToggle}
                 className="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-bright-aqua hover:bg-soft-lavender/50 dark:hover:bg-gray-800/60 transition-colors"
                 aria-label="Toggle dark mode"
               >
