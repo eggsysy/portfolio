@@ -51,12 +51,18 @@ export const ResumeHeader = () => {
       >
         <MagneticButton>
         <Button
+          asChild
           className="bg-bright-aqua hover:bg-bright-aqua/90 text-black px-8 py-4 text-lg font-bold shadow-lg transform -rotate-1 rounded-xl relative z-10 border-0"
           style={{ clipPath: "polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)" }}
-          aria-label="Download Resume PDF"
         >
-          <Download className="mr-2" size={20} />
-          Download PDF
+          <a
+            href="/Aryan-Badmera-Resume.pdf"
+            download
+            aria-label="Download Aryan Badmera's resume as PDF"
+          >
+            <Download className="mr-2" size={20} />
+            Download PDF
+          </a>
         </Button>
         <div
           className="absolute -bottom-1 -right-1 w-full h-full bg-bright-aqua/40 transform rotate-1 rounded-xl -z-10"

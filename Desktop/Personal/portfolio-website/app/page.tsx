@@ -6,7 +6,6 @@ import { HeroSection } from "@/components/sections/home/hero-section"
 import { MissionSection } from "@/components/sections/home/mission-section"
 import { CTASection } from "@/components/sections/home/cta-section"
 import { MathDoodle } from "@/components/sections/home/math-doodle"
-import { HomeFooter } from "@/components/sections/home/footer"
 
 export default function HomePage() {
   return (
@@ -54,8 +53,6 @@ export default function HomePage() {
       
       {/* Decorative Doodles */}
       <MathDoodle />
-
-      <HomeFooter />
     </div>
   )
 }

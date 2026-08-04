@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { PaperDefs } from "@/components/paper-ui/paper-defs"
 import { CommandPalette } from "@/components/paper-ui/command-palette"
 import { PencilCursor } from "@/components/paper-ui/pencil-cursor"
+import { SiteFooter } from "@/components/site-footer"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const kalam = Kalam({
@@ -51,7 +52,6 @@ export const metadata: Metadata = {
     title: "Aryan Badmera | Software Developer",
     description: "Building cutting-edge applications with modern technologies.",
     images: ["/placeholder-user.jpg"],
-    creator: "@eggsysy", // Replace with your actual twitter handle
   },
   icons: {
     icon: "/favicon.ico",
@@ -75,6 +75,7 @@ export default function RootLayout({
           <Navigation />
           <CommandPalette />
           <main className="min-h-screen">{children}</main>
+          <SiteFooter />
         </ThemeProvider>
       </body>
     </html>

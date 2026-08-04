@@ -8,22 +8,44 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+// Set NEXT_PUBLIC_FORMSPREE_ENDPOINT in .env.local (and your Vercel env) to your
+// Formspree endpoint, e.g. https://formspree.io/f/xxxxxxxx
+const FORMSPREE_ENDPOINT =
+  process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || "https://formspree.io/f/mkgvwabo"
+
 export const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setError(null)
     setIsSubmitting(true)
-    
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    
-    // Reset after some time
-    setTimeout(() => setIsSubmitted(false), 5000)
+
+    const form = e.currentTarget
+    const data = new FormData(form)
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      })
+
+      if (res.ok) {
+        setIsSubmitted(true)
+        form.reset()
+        setTimeout(() => setIsSubmitted(false), 6000)
+      } else {
+        const json = await res.json().catch(() => null)
+        setError(json?.errors?.[0]?.message || "Something went wrong. Please email me directly.")
+      }
+    } catch {
+      setError("Network error — please try again, or email me directly.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -61,6 +83,7 @@ export const ContactForm = () => {
                       </label>
                       <Input
                         id="firstName"
+                        name="firstName"
                         type="text"
                         required
                         className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-bright-aqua focus:ring-bright-aqua rounded-lg shadow-sm"
@@ -73,6 +96,7 @@ export const ContactForm = () => {
                       </label>
                       <Input
                         id="lastName"
+                        name="lastName"
                         type="text"
                         required
                         className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-bright-aqua focus:ring-bright-aqua rounded-lg shadow-sm"
@@ -87,6 +111,7 @@ export const ContactForm = () => {
                     </label>
                     <Input
                       id="email"
+                      name="email"
                       type="email"
                       required
                       className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-bright-aqua focus:ring-bright-aqua rounded-lg shadow-sm"
@@ -100,6 +125,7 @@ export const ContactForm = () => {
                     </label>
                     <Input
                       id="subject"
+                      name="subject"
                       type="text"
                       required
                       className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-bright-aqua focus:ring-bright-aqua rounded-lg shadow-sm"
@@ -113,12 +139,22 @@ export const ContactForm = () => {
                     </label>
                     <Textarea
                       id="message"
+                      name="message"
                       required
                       rows={6}
                       className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:border-bright-aqua focus:ring-bright-aqua resize-none rounded-lg shadow-sm placeholder:text-gray-400 dark:placeholder:text-gray-500"
                       placeholder="Tell me about your project or collaboration idea..."
                     />
                   </div>
+
+                  {error && (
+                    <p
+                      role="alert"
+                      className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg px-4 py-3"
+                    >
+                      {error}
+                    </p>
+                  )}
 
                   <motion.div whileHover={{ scale: 1.02 }}>
                     <Button
@@ -159,7 +195,7 @@ export const ContactForm = () => {
               </div>
               <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4 font-kalam">Message Sent!</h3>
               <p className="text-gray-600 dark:text-gray-400 text-lg mb-8">
-                Thanks for reaching out, Aryan! I've received your message and will get back to you as soon as possible.
+                Thanks for reaching out! I've received your message and will get back to you as soon as possible.
               </p>
               <Button
                 variant="outline"
