@@ -2,10 +2,13 @@
 
 import { BackgroundShapes, FloatingShape } from "@/components/paper-ui/background-shapes"
 import { SmallFloatingElements } from "@/components/paper-ui/small-floating-elements"
-import { HeroSection } from "@/components/sections/home/hero-section"
+import { DeskHero } from "@/components/sections/home/desk-hero"
+import { TechStack } from "@/components/sections/home/tech-stack"
 import { MissionSection } from "@/components/sections/home/mission-section"
+import { FeaturedProjects } from "@/components/sections/home/featured-projects"
 import { CTASection } from "@/components/sections/home/cta-section"
 import { MathDoodle } from "@/components/sections/home/math-doodle"
+import { SectionDivider } from "@/components/paper-ui/section-divider"
 
 export default function HomePage() {
   return (
@@ -47,8 +50,13 @@ export default function HomePage() {
       </BackgroundShapes>
 
       {/* Sections */}
-      <HeroSection />
+      <DeskHero />
+      <TechStack />
+      <SectionDivider tone="white" variant={0} rotate={-1.2} />
       <MissionSection />
+      <SectionDivider tone="aqua" variant={2} rotate={1} />
+      <FeaturedProjects />
+      <SectionDivider tone="violet" variant={1} rotate={-0.8} />
       <CTASection />
       
       {/* Decorative Doodles */}

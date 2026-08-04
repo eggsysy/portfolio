@@ -2,7 +2,7 @@
 
 import { BackgroundShapes, FloatingShape } from "@/components/paper-ui/background-shapes"
 import { AboutHeader } from "@/components/sections/about/about-header"
-import { SkillsSection } from "@/components/sections/about/skills-section"
+import { SkillsConstellation } from "@/components/sections/about/skills-constellation"
 import { InterestsSection } from "@/components/sections/about/interests-section"
 
 export default function AboutPage() {
@@ -36,7 +36,7 @@ export default function AboutPage() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <AboutHeader />
-        <SkillsSection />
+        <SkillsConstellation />
         <InterestsSection />
       </div>
     </div>

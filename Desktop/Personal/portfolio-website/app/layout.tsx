@@ -8,6 +8,7 @@ import { PaperDefs } from "@/components/paper-ui/paper-defs"
 import { CommandPalette } from "@/components/paper-ui/command-palette"
 import { PencilCursor } from "@/components/paper-ui/pencil-cursor"
 import { SiteFooter } from "@/components/site-footer"
+import { ScrollProgress } from "@/components/scroll-progress"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const kalam = Kalam({
@@ -23,6 +24,7 @@ const displayFont = Patrick_Hand({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://aryanbadmera.com"),
   title: {
     default: "Aryan Badmera | Software Developer",
     template: "%s | Aryan Badmera",
@@ -70,11 +72,20 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${inter.className} ${inter.variable} ${kalam.variable} ${displayFont.variable} bg-soft-lavender text-gray-900 antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:font-medium focus:text-gray-900 focus:shadow-lg dark:focus:bg-gray-900 dark:focus:text-gray-100"
+          >
+            Skip to content
+          </a>
+          <ScrollProgress />
           <PaperDefs />
           <PencilCursor />
           <Navigation />
           <CommandPalette />
-          <main className="min-h-screen">{children}</main>
+          <main id="main-content" className="min-h-screen">
+            {children}
+          </main>
           <SiteFooter />
         </ThemeProvider>
       </body>

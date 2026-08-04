@@ -5,6 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, X, Sun, Moon } from "lucide-react"
 import { useTheme } from "next-themes"
+import { motion } from "framer-motion"
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -46,20 +47,28 @@ export default function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:text-bright-aqua hover:bg-soft-lavender/50 dark:hover:bg-gray-800/60 ${
-                  pathname === item.href
-                    ? "text-bright-aqua bg-soft-lavender/30 dark:bg-gray-800/40"
-                    : "text-gray-700 dark:text-gray-300"
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
+          <div className="hidden md:flex items-center space-x-6">
+            {navItems.map((item) => {
+              const active = pathname === item.href
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`relative px-2 py-2 text-sm font-medium transition-colors duration-200 hover:text-bright-aqua ${
+                    active ? "text-bright-aqua" : "text-gray-700 dark:text-gray-300"
+                  }`}
+                >
+                  {item.name}
+                  {active && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="absolute -bottom-0.5 left-1 right-1 h-0.5 rounded-full bg-bright-aqua"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              )
+            })}
 
             {/* Dark mode toggle */}
             {mounted && (
