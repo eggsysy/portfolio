@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { EffectComposer, Bloom } from "@react-three/postprocessing"
 import * as THREE from "three"
-import { AboutSculpture, ABOUT_MODEL, MODEL_PLACEMENT } from "@/components/three/models"
+import { ImpossibleKnot } from "@/components/three/models/knot"
 import { Terrain, Orb } from "@/components/three/terrain"
 import { Asteroid, Shards, BinaryDust } from "@/components/three/objects"
 import { sceneState, damp, startSceneInput, type SceneMode } from "@/lib/scene-state"
@@ -157,10 +157,9 @@ export default function Scene() {
         {!low && <BinaryDust count={22} />}
       </FadeGroup>
 
-      {/* About: the sculpture, sat left of the text column. Swap which one
-          shows by changing ABOUT_MODEL in components/three/models. */}
-      <FadeGroup when="brain" position={MODEL_PLACEMENT[ABOUT_MODEL].position}>
-        <AboutSculpture which={ABOUT_MODEL} scale={low ? 0.85 : 1} />
+      {/* About: the knot, sat left of the text column. */}
+      <FadeGroup when="brain" position={[-3.6, -0.2, 0]}>
+        <ImpossibleKnot scale={low ? 0.85 : 1} />
       </FadeGroup>
 
       {/* Work: drifting polyhedra. */}
