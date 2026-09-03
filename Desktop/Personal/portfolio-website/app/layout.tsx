@@ -1,96 +1,95 @@
 import type React from "react"
-import type { Metadata } from "next"
-import { Inter, Kalam, Patrick_Hand } from "next/font/google"
+import type { Metadata, Viewport } from "next"
+import { Cormorant_Garamond, Spectral } from "next/font/google"
 import "./globals.css"
 import Navigation from "@/components/navigation"
-import { ThemeProvider } from "@/components/theme-provider"
-import { ThemeTearProvider } from "@/components/theme-tear"
-import { PaperDefs } from "@/components/paper-ui/paper-defs"
-import { CommandPalette } from "@/components/paper-ui/command-palette"
-import { PencilCursor } from "@/components/paper-ui/pencil-cursor"
 import { SiteFooter } from "@/components/site-footer"
-import { ScrollProgress } from "@/components/scroll-progress"
+import { SceneRoot } from "@/components/three/scene-root"
+import { Atmosphere, CursorRing } from "@/components/chrome/atmosphere"
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-const kalam = Kalam({
-  weight: ["300", "400", "700"],
+/**
+ * Two serifs, no sans anywhere.
+ *
+ * Cormorant is a display garalde — very high stroke contrast, fine hairlines,
+ * and it falls apart below about 18px, which is exactly why it is confined to
+ * headings and caps here. Spectral carries everything meant to be read: it is
+ * a serif drawn for screens, so it holds up at body sizes where Cormorant
+ * would go to pieces.
+ */
+const display = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-kalam",
-})
-// Neat everyday print handwriting for headlines.
-const displayFont = Patrick_Hand({
-  subsets: ["latin"],
-  weight: ["400"],
+  weight: ["300", "400", "500", "600"],
   variable: "--font-display",
+  display: "swap",
+})
+
+const body = Spectral({
+  subsets: ["latin"],
+  weight: ["200", "300", "400"],
+  style: ["normal", "italic"],
+  variable: "--font-body",
+  display: "swap",
 })
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://aryanbadmera.com"),
   title: {
-    default: "Aryan Badmera | Software Developer",
-    template: "%s | Aryan Badmera",
+    default: "Aryan Badmera — Developer",
+    template: "%s — Aryan Badmera",
   },
-  description: "Portfolio of Aryan Badmera, a Software Developer & Blockchain Developer specializing in Blockchain, AI/ML, and modern web technologies.",
-  keywords: ["Aryan Badmera", "Software Developer", "Blockchain", "AI/ML", "Web3", "Portfolio", "Next.js", "React"],
+  description:
+    "Computer Science student building Solidity smart contracts on Ethereum and machine-learning models in Python.",
+  keywords: ["Aryan Badmera", "Solidity", "Ethereum", "Superfluid", "Machine Learning", "Web3", "Three.js"],
   authors: [{ name: "Aryan Badmera" }],
   creator: "Aryan Badmera",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://aryanbadmera.com", // Replace with your actual domain
-    title: "Aryan Badmera | Software Developer",
-    description: "Building cutting-edge applications with modern technologies and creative problem-solving.",
-    siteName: "Aryan Badmera Portfolio",
-    images: [
-      {
-        url: "/placeholder-user.jpg", // Replace with your actual OG image
-        width: 1200,
-        height: 630,
-        alt: "Aryan Badmera Portfolio",
-      },
-    ],
+    title: "Aryan Badmera — Developer",
+    description: "Smart contracts on Ethereum, machine-learning models in Python.",
+    siteName: "Aryan Badmera",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Aryan Badmera" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aryan Badmera | Software Developer",
-    description: "Building cutting-edge applications with modern technologies.",
-    images: ["/placeholder-user.jpg"],
+    title: "Aryan Badmera — Developer",
+    description: "Smart contracts on Ethereum, machine-learning models in Python.",
+    images: ["/og.png"],
   },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon-16x16.png",
     apple: "/apple-touch-icon.png",
   },
-  generator: 'v0.app'
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export const viewport: Viewport = {
+  themeColor: "#0e0e0e",
+  colorScheme: "dark",
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${inter.className} ${inter.variable} ${kalam.variable} ${displayFont.variable} bg-soft-lavender text-gray-900 antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
-          <ThemeTearProvider>
-            <a
-              href="#main-content"
-              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:font-medium focus:text-gray-900 focus:shadow-lg dark:focus:bg-gray-900 dark:focus:text-gray-100"
-            >
-              Skip to content
-            </a>
-            <ScrollProgress />
-            <PaperDefs />
-            <PencilCursor />
-            <Navigation />
-            <CommandPalette />
-            <main id="main-content" className="min-h-screen">
-              {children}
-            </main>
-            <SiteFooter />
-          </ThemeTearProvider>
-        </ThemeProvider>
+    <html lang="en" className="scroll-smooth">
+      <body className={`${display.variable} ${body.variable} antialiased`}>
+        <a
+          href="#main-content"
+          className="label sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-ink-lift focus:px-4 focus:py-2 focus:text-chalk"
+        >
+          Skip to content
+        </a>
+
+        <SceneRoot />
+        <Atmosphere />
+        <CursorRing />
+        <Navigation />
+
+        <div className="relative z-10 isolate flex min-h-screen flex-col overflow-x-clip">
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
+          <SiteFooter />
+        </div>
       </body>
     </html>
   )

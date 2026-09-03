@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,41 +8,58 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        "bright-aqua": "#00f2c3",
-        "deep-violet": "#5a5dff",
-        "soft-lavender": "#eaeaf5",
+        /* Near-black charcoal, not pure black — grain needs something to sit in. */
+        ink: {
+          DEFAULT: "#0e0e0e",
+          lift: "#161616",
+          panel: "#1a1a1a",
+          deep: "#080808",
+        },
+        line: {
+          DEFAULT: "#262626",
+          bright: "#3a3a3a",
+        },
+        chalk: {
+          DEFAULT: "#dcdbd7", // body text
+          dim: "#8e8d89", // secondary
+          faint: "#5c5b58", // tertiary, rules
+        },
+        /* The one accent: a desaturated sage. Icons, CTAs, nothing else. */
+        sage: {
+          DEFAULT: "#8fa99b",
+          dim: "#6b8378",
+        },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
-        display: ["var(--font-display)", "ui-sans-serif", "system-ui", "sans-serif"],
-        kalam: ["var(--font-kalam)", "cursive", "Comic Sans MS", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
+        body: ["var(--font-body)", "Georgia", "serif"],
       },
       letterSpacing: {
-        "tight-display": "-0.02em",
-      },
-      boxShadow: {
-        "glow-cyan": "0 0 20px rgba(0, 242, 195, 0.3)",
-        "glow-violet": "0 0 20px rgba(90, 93, 255, 0.3)",
-      },
-      animation: {
-        "gradient-x": "gradient-x 3s ease infinite",
+        wider2: "0.14em",
+        widest2: "0.2em",
+        widest3: "0.3em",
       },
       keyframes: {
-        "gradient-x": {
-          "0%, 100%": {
-            "background-size": "200% 200%",
-            "background-position": "left center",
-          },
-          "50%": {
-            "background-size": "200% 200%",
-            "background-position": "right center",
-          },
+        grain: {
+          "0%, 100%": { transform: "translate(0, 0)" },
+          "10%": { transform: "translate(-2%, -3%)" },
+          "20%": { transform: "translate(-4%, 2%)" },
+          "30%": { transform: "translate(2%, -4%)" },
+          "40%": { transform: "translate(-1%, 3%)" },
+          "50%": { transform: "translate(-3%, 1%)" },
+          "60%": { transform: "translate(3%, 0)" },
+          "70%": { transform: "translate(0, 3%)" },
+          "80%": { transform: "translate(-3%, 0)" },
+          "90%": { transform: "translate(2%, 2%)" },
         },
+        breathe: {
+          "0%, 100%": { opacity: "0.55" },
+          "50%": { opacity: "1" },
+        },
+      },
+      animation: {
+        grain: "grain 8s steps(10) infinite",
+        breathe: "breathe 4s ease-in-out infinite",
       },
     },
   },

@@ -1,153 +1,228 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
+/* ── One world, stated once ─────────────────────────────────────────
+ * Charcoal ground, serif everything, one sage accent. There is no light
+ * theme: a grained dark room does not translate to a white page.
+ */
 @layer base {
   :root {
-    --background: 234 234 245;
-    --foreground: 17 17 17;
-    --card: 255 255 255;
-    --card-foreground: 17 17 17;
-    --popover: 255 255 255;
-    --popover-foreground: 17 17 17;
-    --primary: 180 100% 47%;
-    --primary-foreground: 255 255 255;
-    --secondary: 234 234 245;
-    --secondary-foreground: 17 17 17;
-    --muted: 234 234 245;
-    --muted-foreground: 34 34 34;
-    --accent: 90 93 255;
-    --accent-foreground: 255 255 255;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 255 255 255;
-    --border: 234 234 245;
-    --input: 234 234 245;
-    --ring: 180 100% 47%;
-    --radius: 0.75rem;
+    color-scheme: dark;
+    --background: 14 14 14;
+    --foreground: 220 219 215;
+    --border: 38 38 38;
+    --ring: 143 169 155;
   }
 
-  .dark {
-    --background: 13 13 24;
-    --foreground: 240 240 255;
-    --card: 26 26 46;
-    --card-foreground: 240 240 255;
-    --popover: 26 26 46;
-    --popover-foreground: 240 240 255;
-    --secondary: 30 30 53;
-    --secondary-foreground: 200 200 230;
-    --muted: 30 30 53;
-    --muted-foreground: 160 160 200;
-    --border: 40 40 70;
-    --input: 40 40 70;
+  html {
+    background: #0e0e0e;
   }
-}
 
-@layer base {
-  * {
-    @apply border-border;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  }
   body {
-    @apply bg-slate-50 text-gray-900;
+    @apply bg-ink text-chalk;
+    font-family: var(--font-body), Georgia, serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
   }
-  .dark body {
-    @apply bg-[#0d0d18] text-gray-100;
+
+  ::selection {
+    background: theme("colors.sage.DEFAULT");
+    color: theme("colors.ink.DEFAULT");
   }
-  /* Hand-lettered script for all top-level headlines (card titles are h3). */
-  h1,
-  h2 {
-    font-family: var(--font-display), "Comic Sans MS", cursive;
-    letter-spacing: 0;
-  }
-  .dark .shadow-xl, .dark .shadow-2xl, .dark .shadow-lg {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+
+  :focus-visible {
+    outline: 1px solid theme("colors.sage.DEFAULT");
+    outline-offset: 4px;
   }
 }
 
-/* Paper-slide page transition (CSS-driven so it never hides content on JS failure) */
-@keyframes page-enter {
+@layer components {
+  /* ── Display type ──────────────────────────────────────────────
+   * A high-contrast garalde in caps, opened up with a lot of tracking.
+   * The tracking is the whole effect: at these sizes the letterforms
+   * need air between them or they read as a heavy block instead of an
+   * engraved line.
+   */
+  .display {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    /* Tracking adds space after the last letter too, which visually
+       shifts centred text left. Pull it back. */
+    text-indent: 0.2em;
+    line-height: 1.1;
+  }
+
+  .display-hero {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    text-indent: 0.16em;
+    line-height: 1.05;
+    text-shadow:
+      0 0 28px rgb(220 219 215 / 0.35),
+      0 0 70px rgb(220 219 215 / 0.18);
+  }
+
+  /* Section titles: serif caps over a short rule, as on the reference. */
+  .section-title {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 400;
+    text-transform: capitalize;
+    letter-spacing: 0.18em;
+    color: theme("colors.chalk.dim");
+  }
+
+  .title-rule {
+    height: 1px;
+    background: theme("colors.chalk.faint");
+  }
+
+  /* Small caps label — nav, meta, buttons. */
+  .label {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 400;
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: theme("colors.chalk.dim");
+  }
+
+  /* The outlined pill button from the hero. */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border: 1px solid theme("colors.chalk.faint");
+    border-radius: 999px;
+    padding: 0.85rem 2.4rem;
+    font-family: var(--font-display), Georgia, serif;
+    letter-spacing: 0.2em;
+    text-indent: 0.2em;
+    color: theme("colors.chalk.DEFAULT");
+    transition:
+      border-color 0.5s ease,
+      color 0.5s ease,
+      box-shadow 0.5s ease;
+  }
+
+  .pill:hover {
+    border-color: theme("colors.chalk.DEFAULT");
+    box-shadow:
+      0 0 24px rgb(220 219 215 / 0.09),
+      inset 0 0 24px rgb(220 219 215 / 0.05);
+  }
+
+  .pill-sage {
+    border-color: theme("colors.sage.dim");
+    color: theme("colors.sage.DEFAULT");
+  }
+
+  .pill-sage:hover {
+    border-color: theme("colors.sage.DEFAULT");
+    box-shadow:
+      0 0 24px rgb(143 169 155 / 0.16),
+      inset 0 0 24px rgb(143 169 155 / 0.07);
+  }
+
+  /* Body copy in the reference is centred and quite airy. */
+  .prose-quiet {
+    font-family: var(--font-body), Georgia, serif;
+    font-weight: 300;
+    line-height: 1.75;
+    color: theme("colors.chalk.DEFAULT");
+  }
+
+  /* Text sitting directly on the 3D needs a well of shade under it. */
+  .scrim {
+    position: relative;
+  }
+
+  .scrim::before {
+    content: "";
+    position: absolute;
+    inset: -2rem -3.5rem;
+    z-index: -1;
+    background: rgb(14 14 14 / 0.72);
+    filter: blur(34px);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+}
+
+/* ── Film grain ─────────────────────────────────────────────────────
+ * The single most important texture in this design. Without it the dark
+ * ground reads as flat CSS black; with it, as a photographed room.
+ */
+.grain {
+  position: fixed;
+  inset: -150%;
+  width: 400%;
+  height: 400%;
+  pointer-events: none;
+  z-index: 40;
+  opacity: 0.22;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  will-change: transform;
+}
+
+/* A vignette, so the eye is pushed to the centre of the frame. */
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 35;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 30%, rgb(8 8 8 / 0.55) 78%, rgb(6 6 6 / 0.85) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Page transition ────────────────────────────────────────────── */
+@keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(26px) scale(0.99) rotate(-0.6deg);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
     transform: none;
   }
 }
+
 .page-enter {
-  transform-origin: 50% 0%;
-  animation: page-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-@media (prefers-reduced-motion: reduce) {
-  .page-enter {
-    animation: none;
-  }
+  animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* Infinite marquee for the tech-stack strip */
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-.animate-marquee {
-  animation: marquee 32s linear infinite;
-}
-.marquee-track:hover .animate-marquee {
-  animation-play-state: paused;
-}
-@media (prefers-reduced-motion: reduce) {
-  .animate-marquee {
-    animation: none;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-}
-
-/* Hide the native cursor while the custom pencil cursor is active */
-html.pencil-cursor-active,
-html.pencil-cursor-active * {
-  cursor: none !important;
-}
-
-/* Custom scrollbar */
+/* ── Scrollbar ──────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 9px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #eaeaf5;
-}
-
-.dark ::-webkit-scrollbar-track {
-  background: #1a1a2e;
+  background: #0b0b0b;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00f2c3;
-  border-radius: 4px;
+  background: #2c2c2c;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00d4a8;
+  background: #3d3d3d;
 }
-
-/* Smooth animations */
-* {
-  scroll-behavior: smooth;
-}
-
-/* Custom focus styles */
-.focus-visible\:ring-cyan-400:focus-visible {
-  --tw-ring-color: rgb(0 242 195);
-}
-
-
-
-
