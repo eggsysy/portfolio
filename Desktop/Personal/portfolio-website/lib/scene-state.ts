@@ -12,12 +12,12 @@
 export type SceneMode =
   /** Ridge, light and drifting binary — the landing state. */
   | "hero"
-  /** The wireframe brain with its mechanism. */
-  | "brain"
+  /** The sculpture on About — currently the impossible knot. */
+  | "sculpture"
   /** Drifting wireframe polyhedra. */
   | "shards"
-  /** The solid pitted mass behind the contact form. */
-  | "asteroid"
+  /** The transmitting instrument behind the contact form. */
+  | "signal"
   /** Nothing but dust — for pages that are only text. */
   | "quiet"
 
@@ -38,8 +38,42 @@ export const sceneState = {
    */
   intensity: 1,
   intensityTarget: 1,
+  /**
+   * How far a section-scoped assembly has come together, 0..1.
+   *
+   * Separate from `scroll`, which is whole-page: an object that builds itself
+   * needs to know how far through *its own* section the reader is, or it would
+   * finish assembling before it was even on screen.
+   */
+  assembly: 0,
+  assemblyTarget: 0,
+  /**
+   * The contact form's grip on the scheduler.
+   *
+   * `nudge` is a decaying impulse — every keystroke adds to it and the rings
+   * speed up briefly. `ready` goes to 1 once the form is valid, which stops the
+   * rings spinning, aligns them and releases the payload.
+   */
+  schedulerNudge: 0,
+  schedulerNudgeTarget: 0,
+  schedulerReady: 0,
+  schedulerReadyTarget: 0,
   /** False when the user has asked for reduced motion. */
   animate: true,
+}
+
+/** One keystroke's worth of spin. Capped, so holding a key cannot run away. */
+export function nudgeScheduler() {
+  sceneState.schedulerNudgeTarget = Math.min(1, sceneState.schedulerNudgeTarget + 0.3)
+}
+
+/** True once every field is filled and valid. */
+export function setSchedulerReady(ready: boolean) {
+  sceneState.schedulerReadyTarget = ready ? 1 : 0
+}
+
+export function setAssemblyProgress(next: number) {
+  sceneState.assemblyTarget = Math.min(1, Math.max(0, next))
 }
 
 export function setSceneMode(next: SceneMode) {

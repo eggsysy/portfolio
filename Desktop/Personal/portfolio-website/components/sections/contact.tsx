@@ -4,7 +4,8 @@ import React, { useState } from "react"
 import { motion } from "framer-motion"
 import { Github, Mail, Linkedin, Send, Check } from "lucide-react"
 import { SectionTitle } from "@/components/ui-kit/section-title"
-import { useSceneMode } from "@/components/three/use-scene-mode"
+import { useSceneMode, useAssemblyProgress } from "@/components/three/use-scene-mode"
+import { nudgeScheduler, setSchedulerReady } from "@/lib/scene-state"
 
 const FORMSPREE_ENDPOINT =
   process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || "https://formspree.io/f/mkgvwabo"
@@ -51,9 +52,23 @@ function Field({
 }
 
 export function Contact() {
-  const ref = useSceneMode("asteroid", 1)
+  const ref = useSceneMode("signal", 1)
+  // Same element drives the scene mode and how far the stack has assembled.
+  useAssemblyProgress(ref)
   const [state, setState] = useState<"idle" | "sending" | "sent">("idle")
   const [error, setError] = useState<string | null>(null)
+
+  /**
+   * Every keystroke is an interrupt for the scheduler behind the form, and a
+   * form that validates aligns it and releases the payload.
+   *
+   * Bound on the form rather than per field: input events bubble, so one
+   * handler covers all three without threading callbacks through Field.
+   */
+  const onInput = (e: React.FormEvent<HTMLFormElement>) => {
+    nudgeScheduler()
+    setSchedulerReady(e.currentTarget.checkValidity())
+  }
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -70,6 +85,7 @@ export function Contact() {
       if (res.ok) {
         setState("sent")
         form.reset()
+        setSchedulerReady(false)
       } else {
         const json = await res.json().catch(() => null)
         setError(json?.errors?.[0]?.message || "That didn't send. Email aryanbadmera@gmail.com instead.")
@@ -114,7 +130,7 @@ export function Contact() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={onSubmit} className="space-y-5">
+              <form onSubmit={onSubmit} onInput={onInput} className="space-y-5">
                 <Field id="name" label="Name:" />
                 <Field id="email" label="Email:" type="email" />
                 <Field id="message" label="Message:" rows={7} />
@@ -151,7 +167,7 @@ export function Contact() {
           </motion.div>
         </div>
 
-        {/* The asteroid occupies this column, rendered in the canvas behind. */}
+        {/* The scheduler occupies this column, rendered in the canvas behind. */}
         <div className="hidden lg:block" aria-hidden="true" />
       </div>
     </section>

@@ -3,56 +3,7 @@
 import { useMemo, useRef } from "react"
 import { useFrame } from "@react-three/fiber"
 import * as THREE from "three"
-import { fbm } from "@/lib/noise"
 import { sceneState } from "@/lib/scene-state"
-
-/**
- * The asteroid behind the contact form: a solid, pitted mass rather than a
- * wireframe, so the page ends on something with weight after all the line
- * work above it.
- */
-export function Asteroid({ scale = 1 }: { scale?: number }) {
-  const ref = useRef<THREE.Group>(null)
-
-  const geometry = useMemo(() => {
-    const g = new THREE.IcosahedronGeometry(1, 48)
-    const pos = g.attributes.position as THREE.BufferAttribute
-    const v = new THREE.Vector3()
-
-    for (let i = 0; i < pos.count; i++) {
-      v.fromBufferAttribute(pos, i)
-      const n = v.clone().normalize()
-      // Big lumps, then craters, then surface tooth.
-      const lumps = fbm(n.x * 1.25, n.y * 1.25, n.z * 1.25, 3, 2.1, 0.55)
-      const craters = fbm(n.x * 3.3, n.y * 3.3, n.z * 3.3, 3, 2.3, 0.5)
-      const grit = fbm(n.x * 11, n.y * 11, n.z * 11, 2, 2.5, 0.5)
-      const r = 1 + lumps * 0.34 + craters * 0.13 + grit * 0.03
-      v.copy(n).multiplyScalar(r)
-      v.x *= 1.18
-      v.z *= 0.92
-      pos.setXYZ(i, v.x, v.y, v.z)
-    }
-
-    pos.needsUpdate = true
-    g.computeVertexNormals()
-    return g
-  }, [])
-
-  useFrame((_, delta) => {
-    if (!ref.current || !sceneState.animate) return
-    const dt = Math.min(delta, 0.05)
-    ref.current.rotation.y += dt * 0.035
-    ref.current.rotation.x += dt * 0.008
-  })
-
-  return (
-    <group ref={ref} scale={scale}>
-      <mesh geometry={geometry} frustumCulled={false}>
-        <meshStandardMaterial color="#2a2a29" roughness={1} metalness={0} flatShading={false} />
-      </mesh>
-    </group>
-  )
-}
 
 /**
  * Floating wireframe polyhedra — the small shapes that drift around the

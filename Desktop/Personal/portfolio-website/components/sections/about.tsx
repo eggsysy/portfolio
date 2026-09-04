@@ -21,7 +21,7 @@ const skills = [
 ]
 
 export function About() {
-  const ref = useSceneMode("brain", 1)
+  const ref = useSceneMode("sculpture", 1)
   const [tab, setTab] = useState<"education" | "skills">("education")
 
   return (

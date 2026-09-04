@@ -6,7 +6,8 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing"
 import * as THREE from "three"
 import { ImpossibleKnot } from "@/components/three/models/knot"
 import { Terrain, Orb } from "@/components/three/terrain"
-import { Asteroid, Shards, BinaryDust } from "@/components/three/objects"
+import { Shards, BinaryDust } from "@/components/three/objects"
+import { Scheduler } from "@/components/three/models/scheduler"
 import { sceneState, damp, startSceneInput, type SceneMode } from "@/lib/scene-state"
 
 /**
@@ -158,7 +159,7 @@ export default function Scene() {
       </FadeGroup>
 
       {/* About: the knot, sat left of the text column. */}
-      <FadeGroup when="brain" position={[-3.6, -0.2, 0]}>
+      <FadeGroup when="sculpture" position={[-3.6, -0.2, 0]}>
         <ImpossibleKnot scale={low ? 0.85 : 1} />
       </FadeGroup>
 
@@ -167,9 +168,10 @@ export default function Scene() {
         <Shards count={low ? 6 : 10} />
       </FadeGroup>
 
-      {/* Contact: the mass, sat right of the form. */}
-      <FadeGroup when="asteroid" position={[5.2, -0.6, -2]}>
-        <Asteroid scale={low ? 3.4 : 4.4} />
+      {/* Contact: the task scheduler, assembling ring by ring as the reader
+          scrolls in and driven by the form itself. */}
+      <FadeGroup when="signal" position={[5.2, -0.2, -1]}>
+        <Scheduler scale={low ? 0.85 : 1} low={low} />
       </FadeGroup>
 
       {!low && (
