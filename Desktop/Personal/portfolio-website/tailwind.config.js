@@ -10,10 +10,10 @@ module.exports = {
       colors: {
         /* Near-black charcoal, not pure black — grain needs something to sit in. */
         ink: {
-          DEFAULT: "#0e0e0e",
-          lift: "#161616",
-          panel: "#1a1a1a",
-          deep: "#080808",
+          DEFAULT: "#070708",
+          lift: "#0e0e10",
+          panel: "#131315",
+          deep: "#030304",
         },
         line: {
           DEFAULT: "#262626",

@@ -9,14 +9,14 @@
 @layer base {
   :root {
     color-scheme: dark;
-    --background: 14 14 14;
+    --background: 7 7 8;
     --foreground: 220 219 215;
     --border: 38 38 38;
     --ring: 143 169 155;
   }
 
   html {
-    background: #0e0e0e;
+    background: #070708;
   }
 
   body {
@@ -148,7 +148,7 @@
     position: absolute;
     inset: -2rem -3.5rem;
     z-index: -1;
-    background: rgb(14 14 14 / 0.72);
+    background: rgb(7 7 8 / 0.74);
     filter: blur(34px);
     border-radius: 50%;
     pointer-events: none;
@@ -166,9 +166,36 @@
   height: 400%;
   pointer-events: none;
   z-index: 40;
-  opacity: 0.22;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.3;
+  /*
+   * Two turbulence layers at different frequencies rather than one. A single
+   * frequency reads as a regular stipple once it is this strong; a coarse pass
+   * under a fine one breaks up that regularity and reads as film.
+   *
+   * Both are pushed dark by a linear transfer before they are composited.
+   * Raw fractalNoise averages mid-grey, so laying it over the page lifts every
+   * black in the design — the speckle has to come from the peaks of the noise,
+   * not from its mean.
+   */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='0.9' intercept='-0.3'/%3E%3CfeFuncG type='linear' slope='0.9' intercept='-0.3'/%3E%3CfeFuncB type='linear' slope='0.9' intercept='-0.3'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='340'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.34' numOctaves='3' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='0.8' intercept='-0.34'/%3E%3CfeFuncG type='linear' slope='0.8' intercept='-0.34'/%3E%3CfeFuncB type='linear' slope='0.8' intercept='-0.34'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+  background-size: 220px 220px, 340px 340px;
   will-change: transform;
+}
+
+/*
+ * A haze sitting between the scene and the type.
+ *
+ * The 3D behind is blurred at source rather than here — blurring through this
+ * layer would take the text with it, and unreadable body copy is too high a
+ * price for atmosphere.
+ */
+.haze {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 34;
+  background: radial-gradient(66% 48% at 50% 32%, rgb(150 158 156 / 0.035) 0%, transparent 60%);
 }
 
 /* A vignette, so the eye is pushed to the centre of the frame. */
@@ -177,7 +204,7 @@
   inset: 0;
   pointer-events: none;
   z-index: 35;
-  background: radial-gradient(120% 90% at 50% 45%, transparent 30%, rgb(8 8 8 / 0.55) 78%, rgb(6 6 6 / 0.85) 100%);
+  background: radial-gradient(120% 90% at 50% 45%, transparent 28%, rgb(5 5 6 / 0.6) 76%, rgb(4 4 5 / 0.9) 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {

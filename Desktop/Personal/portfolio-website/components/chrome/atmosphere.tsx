@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from "react"
 export function Atmosphere() {
   return (
     <>
+      <div className="haze" aria-hidden="true" />
       <div className="grain animate-grain" aria-hidden="true" />
       <div className="vignette" aria-hidden="true" />
     </>

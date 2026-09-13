@@ -30,9 +30,9 @@ export function SceneRoot() {
 
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 bg-ink">
-      <div className="absolute inset-0 bg-[radial-gradient(105%_75%_at_50%_8%,#1b1b1b_0%,#111111_42%,#0e0e0e_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(105%_75%_at_50%_8%,#131316_0%,#0b0b0c_42%,#070708_100%)]" />
       {ready && (
-        <div className="absolute inset-0 animate-[fadein_1.6s_ease-out_both]">
+        <div className="absolute inset-0 animate-[fadein_1.6s_ease-out_both] [filter:blur(0.7px)]">
           <Scene />
         </div>
       )}

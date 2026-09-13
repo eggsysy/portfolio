@@ -5,7 +5,8 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { EffectComposer, Bloom } from "@react-three/postprocessing"
 import * as THREE from "three"
 import { ImpossibleKnot } from "@/components/three/models/knot"
-import { Terrain, Orb } from "@/components/three/terrain"
+import { DataGrid } from "@/components/three/grid"
+import { Orb } from "@/components/three/orb"
 import { Shards, BinaryDust } from "@/components/three/objects"
 import { Scheduler } from "@/components/three/models/scheduler"
 import { sceneState, damp, startSceneInput, type SceneMode } from "@/lib/scene-state"
@@ -34,8 +35,10 @@ function FadeGroup({
     if (!g) return
     const dt = Math.min(delta, 0.05)
 
-    const target = sceneState.mode === when ? 1 : 0
-    alpha.current = damp(alpha.current, target, 3, dt)
+    // Presence already ramps across the section hand-over; the damping only
+    // takes the step out of it between scroll events.
+    const target = sceneState.presence[when] ?? 0
+    alpha.current = damp(alpha.current, target, 5, dt)
 
     // Below a threshold, stop drawing entirely — a hidden brain should not
     // cost anything to render.
@@ -141,9 +144,9 @@ export default function Scene() {
       dpr={low ? [1, 1.25] : [1, 1.75]}
       gl={{ antialias: !low, powerPreference: "high-performance", alpha: false }}
       camera={{ fov: 50, near: 0.1, far: 260, position: [0, 0.4, 12] }}
-      onCreated={({ gl }) => gl.setClearColor("#0e0e0e", 1)}
+      onCreated={({ gl }) => gl.setClearColor("#070708", 1)}
     >
-      <fog attach="fog" args={["#0e0e0e", 30, 96]} />
+      <fog attach="fog" args={["#070708", 26, 78]} />
       <ambientLight intensity={0.28} />
       <directionalLight position={[6, 8, 10]} intensity={1.5} color="#efeeea" />
       <directionalLight position={[-9, -3, -6]} intensity={0.4} color="#9aa6a0" />
@@ -151,9 +154,9 @@ export default function Scene() {
       <Rig />
       <Dust count={low ? 130 : 260} />
 
-      {/* Hero: the ridge, the light above it, drifting binary. */}
+      {/* Hero: the wireframe grid, the light above it, drifting binary. */}
       <FadeGroup when="hero">
-        <Terrain />
+        <DataGrid low={low} />
         <Orb />
         {!low && <BinaryDust count={22} />}
       </FadeGroup>
@@ -170,13 +173,13 @@ export default function Scene() {
 
       {/* Contact: the task scheduler, assembling ring by ring as the reader
           scrolls in and driven by the form itself. */}
-      <FadeGroup when="signal" position={[5.2, -0.2, -1]}>
-        <Scheduler scale={low ? 0.85 : 1} low={low} />
+      <FadeGroup when="signal" position={[5.3, 0.1, -1.4]}>
+        <Scheduler scale={low ? 0.78 : 0.92} low={low} />
       </FadeGroup>
 
       {!low && (
         <EffectComposer enableNormalPass={false}>
-          <Bloom intensity={0.75} luminanceThreshold={0.22} luminanceSmoothing={0.5} mipmapBlur />
+          <Bloom intensity={0.92} luminanceThreshold={0.2} luminanceSmoothing={0.62} mipmapBlur />
         </EffectComposer>
       )}
     </Canvas>

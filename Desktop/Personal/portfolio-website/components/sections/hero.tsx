@@ -49,6 +49,44 @@ export function Hero() {
         </a>
       </motion.div>
 
+      {/*
+        Corner marginalia. Decorative, so it is hidden from assistive tech and
+        from narrow screens, where it would crowd the name rather than frame it.
+      */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.7, duration: 1.4 }}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 hidden xl:block"
+      >
+        <ul className="label absolute left-12 top-1/2 -translate-y-[9rem] space-y-2 text-left text-[0.62rem] text-chalk-faint">
+          {["Code", "Ideas", "Build", "Repeat"].map((w) => (
+            <li key={w}>{w}</li>
+          ))}
+          <li className="!mt-5 h-px w-7 bg-chalk-faint/50" />
+        </ul>
+
+        <ul className="label absolute right-12 top-1/2 -translate-y-[9rem] space-y-2 text-right text-[0.62rem] text-chalk-faint">
+          {["Turn", "Ideas", "Into", "Reality"].map((w) => (
+            <li key={w}>{w}</li>
+          ))}
+          <li className="!mt-5 ml-auto h-px w-7 bg-chalk-faint/50" />
+        </ul>
+
+        <div className="label absolute bottom-12 left-12 flex items-center gap-4 text-[0.62rem] text-chalk-faint">
+          <span className="h-8 w-px bg-chalk-faint/50" />
+          Scroll
+        </div>
+
+        <div className="label absolute bottom-12 right-12 flex items-center gap-6 text-[0.62rem] text-chalk-faint">
+          <span>Ideas</span>
+          <span>Flow</span>
+          <span>Progress</span>
+          <span className="h-px w-7 bg-chalk-faint/50" />
+        </div>
+      </motion.div>
+
       {/* Scroll cue — the mouse outline from the reference. */}
       <motion.a
         href="#about"

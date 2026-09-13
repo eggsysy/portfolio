@@ -30,8 +30,17 @@ export const sceneState = {
   pointerY: 0,
   pointerTargetX: 0,
   pointerTargetY: 0,
-  /** Which object is on stage. */
+  /** Which object is on stage — the one nearest the viewport centre. */
   mode: "hero" as SceneMode,
+  /**
+   * How present each section's object is, 0..1.
+   *
+   * Separate from `mode` because a hard switch cannot cross-fade: the object
+   * would hold at full strength right up to the boundary and then vanish.
+   * Adjacent sections share a boundary, so as one falls the next rises and the
+   * pair always sums to 1 — one object is always fully accounted for.
+   */
+  presence: { hero: 0, sculpture: 0, shards: 0, signal: 0, quiet: 0 } as Record<SceneMode, number>,
   /**
    * How loud the world may be, 0..1. Sections full of body copy turn this
    * down; a hero turns it up. A backdrop that competes with text is noise.
@@ -78,6 +87,12 @@ export function setAssemblyProgress(next: number) {
 
 export function setSceneMode(next: SceneMode) {
   sceneState.mode = next
+}
+
+/** Replaces the whole presence map; anything unnamed goes to zero. */
+export function setScenePresence(next: Partial<Record<SceneMode, number>>) {
+  const p = sceneState.presence
+  for (const key of Object.keys(p) as SceneMode[]) p[key] = next[key] ?? 0
 }
 
 export function setSceneIntensity(next: number) {
